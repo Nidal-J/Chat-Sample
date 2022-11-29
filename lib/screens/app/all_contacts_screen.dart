@@ -44,21 +44,6 @@ class AllContactsScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () async {
-                      // Chat chat = await FbFireStoreChatsController()
-                      //     .manageChat(peer.id);
-                      // if (chat.chatStatus == ChatStatus.waiting.name &&
-                      //     chat.createdBy != myID) {
-                      //   viewMessageRequest(
-                      //       chat: chat, peer: peer, context: context);
-                      // } else {
-                      //   Get.toNamed(
-                      //     RoutesManager.chatScreen,
-                      //     arguments: {
-                      //       'chat': chat,
-                      //       'peer': peer,
-                      //     },
-                      //   );
-                      // }
                       Get.toNamed(RoutesManager.chatScreen);
                     },
                     child: ListTile(

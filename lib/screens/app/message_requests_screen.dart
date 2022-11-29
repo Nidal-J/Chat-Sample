@@ -91,7 +91,7 @@ class MessageRequestsScreen extends GetView<HomeScreenController> {
                               await _performAccept('99');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsManager.green,
+                                backgroundColor: ColorsManager.success,
                                 fixedSize: Size(Get.width / 4, 60.h)),
                             child: const Text('Accept'),
                           ),

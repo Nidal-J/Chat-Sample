@@ -10,7 +10,7 @@ void showSnackbar({
   Get.showSnackbar(
     GetSnackBar(
       title: title,
-      backgroundColor: success ? ColorsManager.green : ColorsManager.danger,
+      backgroundColor: success ? ColorsManager.success : ColorsManager.danger,
       message: message,
       duration: Duration(seconds: duration),
     ),

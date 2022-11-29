@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
             'typing ...',
             style: TextStyle(
               fontSize: 20.sp,
-              color: ColorsManager.green,
+              color: ColorsManager.success,
             ),
           ),
         ),
@@ -100,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             MessageCard(
                               isMe: isMe[index],
                               message: 'Message Content',
-                              date: '3:55 AM',
+                              time: '3:55 AM',
                             ),
                           ],
                         ),

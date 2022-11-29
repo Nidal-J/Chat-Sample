@@ -46,7 +46,7 @@ class TextFieldWidget extends StatelessWidget {
           return 'This field is required *';
         } else if (isPassword && value.length < 6) {
           return 'Password must be 6 characters at least!';
-        } else if (isEmail && !value.contains('@')) {
+        } else if (isEmail && (!value.contains('@') || !value.contains('.'))) {
           return 'Enter valid email!';
         }
         return null;
@@ -55,7 +55,6 @@ class TextFieldWidget extends StatelessWidget {
       keyboardType: isEmail ? TextInputType.emailAddress : keyboardType,
       obscureText: obscureText,
       style: TextStyle(
-        // letterSpacing: 1.2.r,
         color: ColorsManager.white,
         fontSize: 25.sp,
         fontWeight: FontWeight.w500,

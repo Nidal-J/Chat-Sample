@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_sample/core/constants/colors_manager.dart';
 import 'package:chat_sample/core/routes/routes_manager.dart';
 import 'package:chat_sample/core/widgets/loading_widget.dart';
@@ -25,6 +27,10 @@ class HomeScreen extends GetView<HomeScreenController> {
               IconButton(
                 onPressed: () async {
                   showSearch(context: context, delegate: SearchUsersScreen());
+                  log(Get.width.toString());
+                  log(Get.height.toString());
+                  // MediaQuery.of(context).size.width = Get.width
+                  // MediaQuery.of(context).size.height = Get.height
                 },
                 icon: const Icon(Icons.search_rounded),
               ),
@@ -80,7 +86,7 @@ class HomeScreen extends GetView<HomeScreenController> {
                         title: const Text('Messaging Requests'),
                         trailing: CircleAvatar(
                           radius: 20.r,
-                          backgroundColor: ColorsManager.green,
+                          backgroundColor: ColorsManager.success,
                           foregroundColor: ColorsManager.white,
                           child: const Text('4'),
                         )),
@@ -163,7 +169,7 @@ class HomeScreen extends GetView<HomeScreenController> {
                                       'assets/images/avatar.png'),
                                 ),
                                 CircleAvatar(
-                                  backgroundColor: ColorsManager.green,
+                                  backgroundColor: ColorsManager.success,
                                   radius: 12.r,
                                 ),
                               ],
@@ -265,7 +271,7 @@ class HomeScreen extends GetView<HomeScreenController> {
                                       radius: 50.r,
                                     ),
                                     CircleAvatar(
-                                      backgroundColor: ColorsManager.green,
+                                      backgroundColor: ColorsManager.success,
                                       radius: 12.r,
                                     ),
                                   ],

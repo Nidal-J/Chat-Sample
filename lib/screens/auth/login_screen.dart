@@ -12,7 +12,6 @@ import 'package:chat_sample/core/utils/show_snackbar.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +51,7 @@ class LoginScreen extends GetView<LoginController> {
                             icon: controller.passwordVisible.value
                                 ? const Icon(
                                     Icons.visibility,
-                                    color: ColorsManager.green,
+                                    color: ColorsManager.success,
                                   )
                                 : const Icon(
                                     Icons.visibility_off,

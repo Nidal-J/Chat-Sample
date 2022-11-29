@@ -12,14 +12,14 @@ class FbFireStoreUsersController with FbHelper {
     return _instnace ??= FbFireStoreUsersController._();
   }
 
-  // Future<bool> saveUser(ChatUser chatUser) async {
-  //   return _firestore
-  //       .collection("Users")
-  //       .doc(chatUser.id)
-  //       .set(chatUser.toJson())
-  //       .then((value) => true)
-  //       .catchError((e) => false);
-  // }
+  Future<bool> saveUser(ChatUser chatUser) async {
+    return _firestore
+        .collection("Users")
+        .doc(chatUser.id)
+        .set(chatUser.toJson())
+        .then((value) => true)
+        .catchError((e) => false);
+  }
 
   // Future<bool> updateMyOnlineStatus(bool onlineStatus) async {
   //   return await _firestore
@@ -68,7 +68,7 @@ class FbFireStoreUsersController with FbHelper {
         .withConverter<ChatUser>(
             fromFirestore: (snapshot, options) =>
                 ChatUser.fromJson(snapshot.data()!),
-            toFirestore: (value, options) => value.toJson())
+            toFirestore: (chatUser, options) => chatUser.toJson())
         .snapshots();
   }
 

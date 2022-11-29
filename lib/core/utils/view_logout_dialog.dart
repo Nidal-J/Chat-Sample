@@ -27,7 +27,6 @@ void viewLogoutDialog(
                 Text(message),
                 Divider(
                   thickness: 1,
-                  // indent: 100.w,
                   endIndent: 140.w,
                   height: 50.h,
                 ),
@@ -35,7 +34,6 @@ void viewLogoutDialog(
             ),
             content: Text(content ?? ''),
             actions: [
-              // SizedBox(width: 80.w),
               TextButton(
                 onPressed: () {
                   Get.back();
@@ -43,7 +41,7 @@ void viewLogoutDialog(
                 child: Text(
                   'Cancel',
                   style: TextStyle(
-                    color: ColorsManager.green,
+                    color: ColorsManager.success,
                     fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -85,7 +83,7 @@ void viewLogoutDialog(
                 child: Text(
                   'Yes',
                   style: TextStyle(
-                    color: ColorsManager.green,
+                    color: ColorsManager.success,
                     fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                   ),

@@ -8,11 +8,11 @@ class MessageCard extends StatelessWidget {
     Key? key,
     required this.isMe,
     required this.message,
-    required this.date,
+    required this.time,
   }) : super(key: key);
   final bool isMe;
   final String message;
-  final String date;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,7 +53,7 @@ class MessageCard extends StatelessWidget {
         Row(
           children: [
             Text(
-              date,
+              time,
               style: TextStyle(
                 fontSize: 18.sp,
                 color: Colors.white60,

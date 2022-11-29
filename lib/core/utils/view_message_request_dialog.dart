@@ -60,7 +60,7 @@ void viewMessageRequest(
                       height: 1.4,
                       fontSize: 40.sp,
                       fontWeight: FontWeight.bold,
-                      color: ColorsManager.green,
+                      color: ColorsManager.success,
                     ),
                     children: [
                       TextSpan(
@@ -138,7 +138,7 @@ void viewMessageRequest(
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsManager.green,
+                      backgroundColor: ColorsManager.success,
                       fixedSize: Size(Get.width / 4, 60.h),
                     ),
                     child: const Text('Accept'),
