@@ -41,6 +41,6 @@ class Chat {
   }
 
   String getPeerId() {
-    return peers.firstWhere((element) => element != myID);
+    return peers.firstWhere((id) => id != myID);
   }
 }

@@ -36,7 +36,7 @@ class FbFireStoreChatsController with FbHelper {
         )
         .snapshots();
   }
-
+  
   Future<Chat> manageChat(String peerId) async {
     Chat? chat = await _isChatExisted(peerId);
     if (chat != null) {
@@ -68,8 +68,6 @@ class FbFireStoreChatsController with FbHelper {
   }
 
   Future<Chat> _createChat(String peerId) async {
-    // peer1 = await FbFireStoreUsersController().getPeerDetails(myID);
-    // peer2 = await FbFireStoreUsersController().getPeerDetails(peerId);
     Chat chat = _generateNewChat(peerId);
     final chatRef = _firestore.collection("Chats").doc();
     log('New Chat Created Path: $chatRef');
@@ -81,8 +79,6 @@ class FbFireStoreChatsController with FbHelper {
   Chat _generateNewChat(String peerId) {
     Chat chat = Chat();
     chat.peers = [myID, peerId];
-    // chat.peer1 = peer1!;
-    // chat.peer2 = peer2!;
     chat.createdBy = myID;
     chat.chatStatus = ChatStatus.waiting.name;
     return chat;

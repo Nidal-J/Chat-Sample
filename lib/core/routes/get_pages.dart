@@ -47,10 +47,10 @@ final List<GetPage<dynamic>> getPages = [
     page: () => const HomeScreen(),
     binding: HomeScreenBinding(),
   ),
-  GetPage(
-    name: RoutesManager.chatScreen,
-    page: () => const ChatScreen(),
-  ),
+  // GetPage(
+  //   name: RoutesManager.chatScreen,
+  //   page: () => const ChatScreen(),
+  // ),
   GetPage(
     name: RoutesManager.allContactsScreen,
     page: () => const AllContactsScreen(),

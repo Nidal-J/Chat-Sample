@@ -66,7 +66,12 @@ class HomeScreen extends GetView<HomeScreenController> {
                     ),
                   ),
                   Visibility(
-                    visible: true,
+                    visible: FbAuthController()
+                            .currentUser!
+                            .providerData
+                            .first
+                            .providerId ==
+                        'password',
                     child: InkWell(
                       onTap: () async {
                         Get.toNamed(RoutesManager.changePasswordScreen);
@@ -153,7 +158,7 @@ class HomeScreen extends GetView<HomeScreenController> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
-                          Get.toNamed(RoutesManager.chatScreen);
+                          // Get.toNamed(RoutesManager.chatScreen);
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,7 +217,7 @@ class HomeScreen extends GetView<HomeScreenController> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              Get.toNamed(RoutesManager.chatScreen);
+                              // Get.toNamed(RoutesManager.chatScreen);
                             },
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,

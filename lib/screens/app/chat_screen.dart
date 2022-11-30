@@ -1,3 +1,7 @@
+import 'package:chat_sample/firebase/fb_firestore_users_controller.dart';
+import 'package:chat_sample/models/chat.dart';
+import 'package:chat_sample/models/chat_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chat_sample/core/constants/colors_manager.dart';
@@ -7,7 +11,8 @@ import 'package:chat_sample/core/widgets/text_field_widget.dart';
 import 'dart:async';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  const ChatScreen({Key? key, required this.chat}) : super(key: key);
+  final Chat chat;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -45,21 +50,35 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: ListTile(
-          leading: CircleAvatar(
-            radius: 40.r,
-            backgroundColor: ColorsManager.white,
-            backgroundImage: const AssetImage('assets/images/avatar.png'),
-          ),
-          title: const Text('User Name'),
-          subtitle: Text(
-            'typing ...',
-            style: TextStyle(
-              fontSize: 20.sp,
-              color: ColorsManager.success,
-            ),
-          ),
-        ),
+        title: StreamBuilder<QuerySnapshot<ChatUser>>(
+            stream: FbFireStoreUsersController()
+                .readPeerData(widget.chat.getPeerId()),
+            builder: (context, snapshot) {
+              final chatUser =
+                  snapshot.hasData ? snapshot.data!.docs.first.data() : null;
+              return snapshot.hasData
+                  ? ListTile(
+                      leading: CircleAvatar(
+                        radius: 40.r,
+                        backgroundColor: ColorsManager.white,
+                        backgroundImage: chatUser!.image != null
+                            ? NetworkImage(chatUser.image!)
+                            : const AssetImage('assets/images/avatar.png')
+                                as ImageProvider,
+                      ),
+                      title: Text(chatUser.name),
+                      subtitle: Text(
+                        chatUser.online ? 'online' : 'offline',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          color: chatUser.online
+                              ? ColorsManager.success
+                              : ColorsManager.grey,
+                        ),
+                      ),
+                    )
+                  : Container();
+            }),
         actions: [
           PopupMenuButton<String>(
             color: ColorsManager.purble,

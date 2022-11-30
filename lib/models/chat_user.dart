@@ -1,8 +1,8 @@
 class ChatUser {
   late String id;
-  String name = 'Type User';
+  String name = 'Chat User';
   late String email;
-  String bio = 'Hi! I\'m a new Type User';
+  String bio = 'Hi! I\'m a new Chat User';
   bool online = false;
   String? image;
   String fcmToken = '';

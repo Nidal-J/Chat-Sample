@@ -83,21 +83,21 @@ class FbFireStoreUsersController with FbHelper {
         .snapshots();
   }
 
-  Future<ChatUser?> getPeerDetails(String peerId) async {
-    final docRef = FirebaseFirestore.instance
-        .collection("Users")
-        .doc(peerId)
-        .withConverter<ChatUser>(
-          fromFirestore: (snapshot, options) =>
-              ChatUser.fromJson(snapshot.data()!),
-          toFirestore: (value, options) => value.toJson(),
-        );
-    final docSnap = await docRef.get();
-    final chatUser = docSnap.data();
-    if (chatUser != null) {
-      return chatUser;
-    } else {
-      return null;
-    }
-  }
+  // Future<ChatUser?> getPeerDetails(String peerId) async {
+  //   final docRef = FirebaseFirestore.instance
+  //       .collection("Users")
+  //       .doc(peerId)
+  //       .withConverter<ChatUser>(
+  //         fromFirestore: (snapshot, options) =>
+  //             ChatUser.fromJson(snapshot.data()!),
+  //         toFirestore: (value, options) => value.toJson(),
+  //       );
+  //   final docSnap = await docRef.get();
+  //   final chatUser = docSnap.data();
+  //   if (chatUser != null) {
+  //     return chatUser;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

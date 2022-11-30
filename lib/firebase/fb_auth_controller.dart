@@ -53,7 +53,7 @@ class FbAuthController with FbHelper {
         await userCredential.user!.updateDisplayName(chatUser.name);
         chatUser.id = userCredential.user!.uid;
         await signOut();
-        // await FbFireStoreUsersController().saveUser(chatUser);
+        await FbFireStoreUsersController().saveUser(chatUser);
         return ProcessResponse("Verification email sent, verify and login");
       }
     } on FirebaseAuthException catch (e) {
@@ -118,7 +118,9 @@ class FbAuthController with FbHelper {
           await InternetConnectionChecker().hasConnection;
       GoogleSignInAccount? googleUser;
       if (isInternetConnected) {
+        log('message');
         googleUser = await _googleAuth.signIn();
+        log('message 2');
       } else {
         return ProcessResponse('No Internet Connection Available !!', false);
       }
@@ -131,10 +133,10 @@ class FbAuthController with FbHelper {
         );
         final userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        if (userCredential.user != null) {
-          await _saveUser(userCredential.user!);
-          return ProcessResponse("Logged in successfully");
-        }
+        // if (userCredential.user != null) {
+        //   await _saveUser(userCredential.user!);
+        return ProcessResponse("Logged in successfully");
+        // }
       } else {
         return null;
       }
@@ -150,7 +152,8 @@ class FbAuthController with FbHelper {
     chatUser.name = user.displayName ?? 'New User';
     chatUser.image = user.photoURL ?? '';
     chatUser.id = user.uid;
-    return await FbFireStoreUsersController().saveUser(chatUser);
+    return true;
+    // return await FbFireStoreUsersController().saveUser(chatUser);
   }
 
   Future<void> signOut() async {

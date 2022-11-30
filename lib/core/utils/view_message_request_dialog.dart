@@ -125,13 +125,13 @@ void viewMessageRequest(
                       bool success = await performAccept(chat.id);
                       if (success) {
                         Get.back();
-                        Get.offAndToNamed(
-                          RoutesManager.chatScreen,
-                          arguments: {
-                            'chat': chat,
-                            'peer': peer,
-                          },
-                        );
+                        // Get.offAndToNamed(
+                        //   RoutesManager.chatScreen,
+                        //   arguments: {
+                        //     'chat': chat,
+                        //     'peer': peer,
+                        //   },
+                        // );
                       } else {
                         showSnackbar(
                             message: 'Something went wrong!! Try again later.');

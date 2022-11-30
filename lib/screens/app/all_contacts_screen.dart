@@ -1,3 +1,10 @@
+import 'package:chat_sample/core/widgets/loading_widget.dart';
+import 'package:chat_sample/core/widgets/no_data_widget.dart';
+import 'package:chat_sample/firebase/fb_firestore_chats_controller.dart';
+import 'package:chat_sample/firebase/fb_firestore_users_controller.dart';
+import 'package:chat_sample/models/chat_user.dart';
+import 'package:chat_sample/screens/app/chat_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -39,44 +46,59 @@ class AllContactsScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      Get.toNamed(RoutesManager.chatScreen);
-                    },
-                    child: ListTile(
-                      minVerticalPadding: 35.h,
-                      horizontalTitleGap: 40.w,
-                      title: Text(
-                        'User Name',
-                        style: TextStyle(
-                          fontSize: 26.sp,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: Text(
-                          'User Bio',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            color: ColorsManager.hintColor,
-                          ),
-                        ),
-                      ),
-                      leading: CircleAvatar(
-                        backgroundColor: ColorsManager.white,
-                        backgroundImage:
-                            const AssetImage('assets/images/avatar.png'),
-                        radius: 50.r,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              child: StreamBuilder<QuerySnapshot<ChatUser>>(
+                  stream: FbFireStoreUsersController().readUsers(),
+                  builder: (context, snapshot) {
+                    return snapshot.hasData
+                        ? ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              final chatUser =
+                                  snapshot.data!.docs[index].data();
+                              return InkWell(
+                                onTap: () async {
+                                  final chat = await FbFireStoreChatsController()
+                                      .manageChat(chatUser.id);
+                                  Get.to(ChatScreen(chat: chat));
+                                },
+                                child: ListTile(
+                                  minVerticalPadding: 35.h,
+                                  horizontalTitleGap: 40.w,
+                                  title: Text(
+                                    chatUser.name,
+                                    style: TextStyle(
+                                      fontSize: 26.sp,
+                                    ),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: EdgeInsets.only(top: 10.h),
+                                    child: Text(
+                                      chatUser.bio,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 22.sp,
+                                        color: ColorsManager.hintColor,
+                                      ),
+                                    ),
+                                  ),
+                                  leading: CircleAvatar(
+                                    backgroundColor: ColorsManager.white,
+                                    backgroundImage: chatUser.image != null
+                                        ? NetworkImage(chatUser.image!)
+                                        : const AssetImage(
+                                                'assets/images/avatar.png')
+                                            as ImageProvider,
+                                    radius: 50.r,
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : snapshot.connectionState == ConnectionState.waiting
+                            ? const LoadingWidget()
+                            : const NoDataWidget();
+                  }),
             ),
           ],
         ),
