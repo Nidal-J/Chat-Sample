@@ -38,15 +38,11 @@ class MessageCard extends StatelessWidget {
             ),
           ),
           padding: EdgeInsetsDirectional.fromSTEB(30.w, 15.h, 25.w, 25.w),
-          child: Stack(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  fontSize: 26.sp,
-                ),
-              ),
-            ],
+          child: Text(
+            message,
+            style: TextStyle(
+              fontSize: 26.sp,
+            ),
           ),
         ),
         SizedBox(height: 10.h),

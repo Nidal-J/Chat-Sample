@@ -18,13 +18,15 @@ void viewMessageRequest(
     context: context,
     builder: (context) {
       Future<bool> performAccept(String chatId) async {
-        return await FbFireStoreChatsController()
-            .updateChatStatus(ChatStatus.accepted.name, chatId);
+        return true;
+        // return await FbFireStoreChatsController()
+        //     .updateChatStatus(ChatStatus.accepted.name, chatId);
       }
 
       Future<bool> performReject(String chatId) async {
-        return await FbFireStoreChatsController()
-            .updateChatStatus(ChatStatus.rejected.name, chatId);
+        return true;
+        // return await FbFireStoreChatsController()
+        //     .updateChatStatus(ChatStatus.rejected.name, chatId);
       }
 
       return Dialog(
@@ -110,9 +112,9 @@ void viewMessageRequest(
                     onPressed: () async {
                       bool success = await performReject(chat.id);
                       if (success) {
-                        await FbFireStoreMessagesController()
-                            .deleteRejectedChatMessages(chat.id);
-                        await FbFireStoreChatsController().deleteChat(chat.id);
+                        // await FbFireStoreMessagesController()
+                        //     .deleteRejectedChatMessages(chat.id);
+                        // await FbFireStoreChatsController().deleteChat(chat.id);
                       } else {
                         showSnackbar(
                             message: 'Something went wrong!! Try again later.');

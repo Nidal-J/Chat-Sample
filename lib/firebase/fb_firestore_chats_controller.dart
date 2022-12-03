@@ -26,16 +26,16 @@ class FbFireStoreChatsController with FbHelper {
         .snapshots();
   }
 
-  Stream<QuerySnapshot<Chat>> fetchChat(String chatId) async* {
-    yield* _firestore
-        .collection("Chats")
-        .where("id", isEqualTo: chatId)
-        .withConverter<Chat>(
-          fromFirestore: (snapshot, options) => Chat.fromJson(snapshot.data()!),
-          toFirestore: (value, options) => value.toJson(),
-        )
-        .snapshots();
-  }
+  // Stream<QuerySnapshot<Chat>> fetchChat(String chatId) async* {
+  //   yield* _firestore
+  //       .collection("Chats")
+  //       .where("id", isEqualTo: chatId)
+  //       .withConverter<Chat>(
+  //         fromFirestore: (snapshot, options) => Chat.fromJson(snapshot.data()!),
+  //         toFirestore: (value, options) => value.toJson(),
+  //       )
+  //       .snapshots();
+  // }
   
   Future<Chat> manageChat(String peerId) async {
     Chat? chat = await _isChatExisted(peerId);
@@ -84,28 +84,28 @@ class FbFireStoreChatsController with FbHelper {
     return chat;
   }
 
-  Future<void> deleteChat(String chatId) async {
-    await _firestore.collection("Chats").doc(chatId).delete();
-  }
+  // Future<void> deleteChat(String chatId) async {
+  //   await _firestore.collection("Chats").doc(chatId).delete();
+  // }
 
-  Future<bool> updateChatStatus(String chatStatus, String chatId) async {
-    return _firestore
-        .collection("Chats")
-        .doc(chatId)
-        .update({"chat_status": chatStatus})
-        .then((value) => true)
-        .catchError((error) => false);
-  }
+  // Future<bool> updateChatStatus(String chatStatus, String chatId) async {
+  //   return _firestore
+  //       .collection("Chats")
+  //       .doc(chatId)
+  //       .update({"chat_status": chatStatus})
+  //       .then((value) => true)
+  //       .catchError((error) => false);
+  // }
 
-  Future<bool> updateMyTypingStatus(
-      {required bool isTyping,
-      required String chatId,
-      required String myPeer}) async {
-    return _firestore
-        .collection("Chats")
-        .doc(chatId)
-        .update({myPeer: isTyping})
-        .then((value) => true)
-        .catchError((error) => false);
-  }
+  // Future<bool> updateMyTypingStatus(
+  //     {required bool isTyping,
+  //     required String chatId,
+  //     required String myPeer}) async {
+  //   return _firestore
+  //       .collection("Chats")
+  //       .doc(chatId)
+  //       .update({myPeer: isTyping})
+  //       .then((value) => true)
+  //       .catchError((error) => false);
+  // }
 }

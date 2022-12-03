@@ -133,10 +133,10 @@ class FbAuthController with FbHelper {
         );
         final userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        // if (userCredential.user != null) {
-        //   await _saveUser(userCredential.user!);
-        return ProcessResponse("Logged in successfully");
-        // }
+        if (userCredential.user != null) {
+          await _saveUser(userCredential.user!);
+          return ProcessResponse("Logged in successfully");
+        }
       } else {
         return null;
       }
@@ -152,8 +152,8 @@ class FbAuthController with FbHelper {
     chatUser.name = user.displayName ?? 'New User';
     chatUser.image = user.photoURL ?? '';
     chatUser.id = user.uid;
-    return true;
-    // return await FbFireStoreUsersController().saveUser(chatUser);
+    // return true;
+    return await FbFireStoreUsersController().saveUser(chatUser);
   }
 
   Future<void> signOut() async {

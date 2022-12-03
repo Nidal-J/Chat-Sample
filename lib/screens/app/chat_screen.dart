@@ -1,5 +1,14 @@
+import 'dart:developer';
+
+import 'package:chat_sample/core/utils/my_data.dart';
+import 'package:chat_sample/core/utils/time_date_send.dart';
+import 'package:chat_sample/core/widgets/loading_widget.dart';
+import 'package:chat_sample/core/widgets/no_data_widget.dart';
+import 'package:chat_sample/firebase/fb_auth_controller.dart';
+import 'package:chat_sample/firebase/fb_firestore_messages_controller.dart';
 import 'package:chat_sample/firebase/fb_firestore_users_controller.dart';
 import 'package:chat_sample/models/chat.dart';
+import 'package:chat_sample/models/chat_message.dart';
 import 'package:chat_sample/models/chat_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +52,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  List<bool> isMe = [true, false, false, true, true];
+  // List<bool> isMe = [true, false, false, true, true];
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   snapshot.hasData ? snapshot.data!.docs.first.data() : null;
               return snapshot.hasData
                   ? ListTile(
+                      contentPadding: EdgeInsets.zero,
                       leading: CircleAvatar(
                         radius: 40.r,
                         backgroundColor: ColorsManager.white,
@@ -102,36 +112,39 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: [
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsetsDirectional.only(top: 20.h),
-                        child: Row(
-                          mainAxisAlignment: isMe[index]
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
-                          children: [
-                            MessageCard(
-                              isMe: isMe[index],
-                              message: 'Message Content',
-                              time: '3:55 AM',
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const TypingIndicator(
-                  showIndicator: true,
-                ),
-              ],
-            )),
+                child: StreamBuilder<QuerySnapshot<ChatMessage>>(
+                    stream: FbFireStoreMessagesController()
+                        .fetchMessages(widget.chat.id),
+                    builder: (context, snapshot) {
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              reverse: true,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                final chatMessage =
+                                    snapshot.data!.docs[index].data();
+                                return Padding(
+                                  padding:
+                                      EdgeInsetsDirectional.only(top: 20.h),
+                                  child: Row(
+                                    mainAxisAlignment: chatMessage.sentByMe
+                                        ? MainAxisAlignment.end
+                                        : MainAxisAlignment.start,
+                                    children: [
+                                      MessageCard(
+                                        isMe: chatMessage.sentByMe,
+                                        message: chatMessage.message,
+                                        time: timeSend(chatMessage.sentAt),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : snapshot.connectionState == ConnectionState.waiting
+                              ? const LoadingWidget()
+                              : const NoDataWidget();
+                    })),
             Divider(
               color: ColorsManager.dividerColor,
               thickness: 2,
@@ -171,6 +184,22 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _performSendMessage() async {
-    if (_checkData()) {}
+    if (_checkData()) {
+      log('message 1');
+      await FbFireStoreMessagesController().sendMessage(message);
+      log('message 2');
+    }
+  }
+
+  ChatMessage get message {
+    ChatMessage chatMessage = ChatMessage();
+    chatMessage.message = messageController.text;
+    messageController.clear();
+    chatMessage.senderId = myID;
+    chatMessage.sentByMe = true;
+    chatMessage.receiverId = widget.chat.getPeerId();
+    chatMessage.sentAt = DateTime.now().millisecondsSinceEpoch.toString();
+    chatMessage.chatId = widget.chat.id;
+    return chatMessage;
   }
 }
